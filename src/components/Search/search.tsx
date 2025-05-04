@@ -20,7 +20,7 @@ const Search = ({onSearch}: Props) => {
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Search for starship корабль..."
+        placeholder="Search for starship..."
         value={search}
         onChangeText={setSearch}
         style={styles.input}

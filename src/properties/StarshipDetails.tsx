@@ -35,10 +35,8 @@ const StarshipDetails = () => {
         <Text style={styles.idText}>ID: {id}</Text>
         <Text style={styles.title}>{starship.name}</Text>
         <Text style={styles.subtitle}>Model: {starship.model}</Text>
-        <Text style={styles.consumables}>
-          Consumables: {starship.consumables}
-        </Text>
-        <Text style={styles.manufacturer}>
+        <Text style={styles.subtitle}>Consumables: {starship.consumables}</Text>
+        <Text style={styles.subtitle}>
           manufacturer: {starship.manufacturer}
         </Text>
         <TouchableOpacity

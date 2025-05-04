@@ -28,16 +28,6 @@ export default StyleSheet.create({
     color: '#4B5563',
     marginBottom: 4,
   },
-  consumables: {
-    fontSize: 16,
-    color: '#4B5563',
-    marginBottom: 4,
-  },
-  manufacturer: {
-    fontSize: 16,
-    color: '#4B5563',
-    marginBottom: 4,
-  },
   idText: {
     fontSize: 14,
     color: '#6B7280',

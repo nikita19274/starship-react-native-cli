@@ -7,9 +7,9 @@ import {
   ListRenderItem,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  useGetStarshipsQuery,
+  useGetStarshipsPaginationQuery,
   useSearchStarshipsQuery,
 } from '../../services/StarshipApi';
 import style from './style';
@@ -27,10 +27,37 @@ type Starship = {
 type NavigationType = NativeStackNavigationProp<RootStackParamList>;
 
 const Home = () => {
-  // const {data, isLoading, isError} = useGetStarshipsQuery();
   const navigation = useNavigation<NavigationType>();
   const [search, setSearch] = useState('');
-  const {data, isLoading, isError} = useSearchStarshipsQuery(search);
+  const [page, setPage] = useState(1);
+
+  const {
+    data: searchData,
+    isLoading: isLoadingSearch,
+    isError: isErrorSearch,
+  } = useSearchStarshipsQuery(search, {
+    skip: !search,
+  });
+
+  const {
+    data: starshipsData,
+    isLoading: isLoadingStarships,
+    isError: isErrorStarships,
+  } = useGetStarshipsPaginationQuery(search ? undefined : page);
+
+  const dataToRender = search ? searchData?.results : starshipsData?.results;
+  const isLoading = search ? isLoadingSearch : isLoadingStarships;
+  const isError = search ? isErrorSearch : isErrorStarships;
+
+  const loadMore = () => {
+    if (!search && starshipsData?.next) {
+      setPage(prev => prev + 1);
+    }
+  };
+
+  const goBackToFirstPage = () => {
+    setPage(1);
+  };
 
   if (isLoading) {
     return (
@@ -70,14 +97,52 @@ const Home = () => {
     );
   };
 
+  const renderFooter = () => {
+    if (isLoading) {
+      return (
+        <ActivityIndicator
+          size="large"
+          color="blue"
+          style={style.loadingIndicator}
+        />
+      );
+    }
+    if (starshipsData?.next && !search) {
+      return (
+        <View style={style.paginationContainer}>
+          <TouchableOpacity style={style.loadMoreButton} onPress={loadMore}>
+            <Text style={style.loadMoreButtonText}>Load More</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    if (!starshipsData?.next && !search) {
+      return (
+        <View style={style.paginationContainer}>
+          <TouchableOpacity
+            style={style.goBackToFirstPage}
+            onPress={goBackToFirstPage}>
+            <Text style={style.goBackToFirstPageText}>
+              Go To The First Page
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return null;
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Text style={style.title}>Starships 🚀</Text>
       <Search onSearch={setSearch} />
       <FlatList
-        data={data?.results}
+        data={dataToRender}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
+        onEndReached={search ? undefined : loadMore}
+        onEndReachedThreshold={2}
+        ListFooterComponent={!search ? renderFooter : null}
       />
     </SafeAreaView>
   );

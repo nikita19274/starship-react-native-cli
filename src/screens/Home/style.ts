@@ -29,4 +29,31 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     padding: 12,
   },
+  paginationContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  loadMoreButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+  },
+  loadMoreButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  goBackToFirstPage: {
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+  },
+  goBackToFirstPageText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
 });
