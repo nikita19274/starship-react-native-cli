@@ -7,7 +7,7 @@ import {
   ListRenderItem,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   useGetStarshipsPaginationQuery,
   useSearchStarshipsQuery,
@@ -16,7 +16,7 @@ import style from './style';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../navigation/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import Search from '../../components/Search/search';
+import Search from '../../components/Search/Search';
 
 type Starship = {
   name: string;
